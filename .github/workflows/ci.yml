@@ -18,7 +18,7 @@ jobs:
         run: g++ main.cpp
 
       - name: Run
-        run: a.exe
+        run: .\a.exe
 
   macOS:
     runs-on: macos-latest
