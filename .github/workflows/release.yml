@@ -34,19 +34,19 @@ jobs:
         - {
           os: windows-latest,
           src_file: a.exe,
-          file_name: a_windows.exe,
+          output_path: .\bin\a_windows.exe,
           rename_command: ren
         }
         - {
           os: macos-latest,
           src_file: a.out,
-          file_name: a_macos.out,
+          output_path: ./bin/a_macos.out,
           rename_command: mv
         }
         - {
           os: ubuntu-latest,
           src_file: a.out,
-          file_name: a_linux.out,
+          output_path: ./bin/a_linux.out,
           rename_command: mv
         }
         
@@ -65,14 +65,14 @@ jobs:
       - name: Build
         run: g++ main.cpp
 
-      - name: Rename outputs
-        run: ${{ matrix.config.rename_command }} ${{ matrix.config.src_file }} ${{ matrix.config.file_name }}
+      - name: Move outputs
+        run: ${{ matrix.config.rename_command }} ${{ matrix.config.src_file }} ${{ matrix.config.output_path }}
 
       - name: Commit
         run: |
           git config user.name "Actions release workflow"
           git config user.email "kondo.eque@gmail.com"
-          git add ${{ matrix.config.file_name }}
+          git add ${{ matrix.config.output_path }}
           git commit -m "Updated binary on ${{ matrix.config.os }}"
           git pull
           git push origin release_${ matrix.config.os }
@@ -87,7 +87,7 @@ jobs:
     
     steps:
       - name: Checkout
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
         with:
           ref: release-${{ matrix.os }}
 
