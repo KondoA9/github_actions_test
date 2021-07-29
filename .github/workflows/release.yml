@@ -94,9 +94,7 @@ jobs:
         uses: repo-sync/pull-request@v2
         with:
           destination_branch: "release"
-          pr_title: "${{ github.ref }}: Updated binary files on ${{ matrix.os }}"
-          pr_body: "Updated binary files automatically."
-          pr_draft: true
+          pr_title: "${{ github.ref }}: Updated the binary on ${{ matrix.os }}"
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
      # - name: Upload Release Asset
