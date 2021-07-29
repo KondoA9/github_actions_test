@@ -36,14 +36,17 @@ jobs:
         config: 
         - {
           os: windows-latest,
+          src_file: a.exe,
           file_name: a_windows.exe
         }
         - {
           os: macos-latest,
+          src_file: a.out,
           file_name: a_macos.out
         }
         - {
           os: ubuntu-latest,
+          src_file: a.out,
           file_name: a_linux.out
         }
 
@@ -61,6 +64,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ${{ matrix.config.file_name }}
+          asset_path: ${{ matrix.config.src_file }}
           asset_name: ${{ matrix.config.file_name }}
           asset_content_type: application/binary
