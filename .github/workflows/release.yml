@@ -29,13 +29,6 @@ jobs:
     name: release
     runs-on: ${{ matrix.config.os }}
     steps:
-
-      - name: Set up Go 1.x
-        uses: actions/setup-go@v2
-        with:
-          go-version: ^1.13
-        id: go
-
       - name: Check out code into the Go module directory
         uses: actions/checkout@v2
 
@@ -60,6 +53,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./artifacts/${{ matrix.config.file_name }}
+          asset_path: ${{ matrix.config.file_name }}
           asset_name: ${{ matrix.config.file_name }}
           asset_content_type: application/binary
