@@ -87,12 +87,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          ref: release_${{ matrix.os }}
 
       - name: Create PR
         uses: repo-sync/pull-request@v2
         with:
+          source_branch: "release_${{ matrix.os }}"
           destination_branch: "release"
           pr_title: "${{ github.ref }}: Updated the binary on ${{ matrix.os }}"
           github_token: ${{ secrets.GITHUB_TOKEN }}
