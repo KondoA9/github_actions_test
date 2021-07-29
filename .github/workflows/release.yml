@@ -56,6 +56,12 @@ jobs:
         with:
           ref: release
 
+      - name: Create new branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git checkout -b release_${ matrix.config.os }
+
       - name: Build
         run: g++ main.cpp
 
@@ -69,20 +75,28 @@ jobs:
           git add ${{ matrix.config.file_name }}
           git commit -m "Updated binary on ${{ matrix.config.os }}"
           git pull
-          git push origin release
+          git push origin release_${ matrix.config.os }
 
   create_pr:
     name: Create PR
     needs: build
     runs-on: ubuntu_latest
+    strategy:
+      matrix:
+        os: [ windows-latest, macos-latest, ubuntu-latest ]
     
     steps:
+      - name: Checkout
+      - uses: actions/checkout@v2
+        with:
+          ref: release-${{ matrix.os }}
+
       - name: Create PR
         uses: repo-sync/pull-request@v2
         with:
-          destination_branch: "main"
-          pr_title: "Release ${{ github.ref }}"
-          pr_body: "Updated binary files to ${{ github.ref }}"
+          destination_branch: "release"
+          pr_title: "${{ github.ref }}: Updated binary files on ${{ matrix.os }}"
+          pr_body: "Updated binary files automatically."
           pr_draft: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
