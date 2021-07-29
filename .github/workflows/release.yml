@@ -74,8 +74,7 @@ jobs:
           git config user.email "kondo.eque@gmail.com"
           git add ${{ matrix.config.output_path }}
           git commit -m "Updated binary on ${{ matrix.config.os }}"
-          git pull
-          git push origin release_${{ matrix.config.os }}
+          git push --set-upstream-to=origin/release_${{ matrix.config.os }} release_${{ matrix.config.os }}
 
   create_pr:
     name: Create PR
