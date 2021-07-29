@@ -17,4 +17,4 @@ jobs:
       - name: Install Visual Studio Installer Project
         run: |
           curl https://marketplace.visualstudio.com/_apis/public/gallery/publishers/VisualStudioClient/vsextensions/MicrosoftVisualStudio2017InstallerProjects/1.0.0/vspackage -o VSInstallerProjSetup.vsix
-          Start-Process "C:\Program Files (x86)\Microsoft Visual Studio\Installer\resources\app\ServiceHub\Services\Microsoft.VisualStudio.Setup.Service\VSIXInstaller.exe" /quiet VSInstallerProjSetup.vsix
+          Start-Process -FilePath "C:\Program Files (x86)\Microsoft Visual Studio\Installer\resources\app\ServiceHub\Services\Microsoft.VisualStudio.Setup.Service\VSIXInstaller.exe" -ArgumentList "VSInstallerProjSetup.vsix /quiet"
