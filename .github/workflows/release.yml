@@ -35,7 +35,7 @@ jobs:
           os: windows-latest,
           src_file: a.exe,
           output_path: .\bin\a_windows.exe,
-          rename_command: ren
+          rename_command: move
         }
         - {
           os: macos-latest,
