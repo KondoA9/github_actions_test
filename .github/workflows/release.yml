@@ -79,7 +79,7 @@ jobs:
   create_pr:
     name: Create PR
     needs: build
-    runs-on: ubuntu_latest
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         os: [ windows-latest, macos-latest, ubuntu-latest ]
