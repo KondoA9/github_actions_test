@@ -6,10 +6,31 @@ on:
       - main
 
     tags:
-      - v*
+      - 'v*'
 
 jobs:
+  create_release:
+    name: Create release
+    runs-on: ubuntu-latest
+    
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
   release:
+    name: Release assets
+    needs: create_release
+    runs-on: ${{ matrix.config.os }}
     strategy:
       matrix:
         config: 
@@ -26,22 +47,9 @@ jobs:
           file_name: a.out
         }
 
-    name: release
-    runs-on: ${{ matrix.config.os }}
     steps:
-      - name: Check out code into the Go module directory
+      - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Create release
-        id: create_release
-        uses: actions/create-release@v1.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
 
       - name: Build
         run: g++ main.cpp
@@ -52,7 +60,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
           asset_path: ${{ matrix.config.file_name }}
           asset_name: ${{ matrix.config.file_name }}
           asset_content_type: application/binary
