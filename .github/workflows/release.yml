@@ -24,8 +24,8 @@ jobs:
           draft: false
           prerelease: false
 
-  release:
-    name: Release assets
+  build:
+    name: Build
     needs: create_release
     runs-on: ${{ matrix.config.os }}
     strategy:
@@ -34,31 +34,53 @@ jobs:
         - {
           os: windows-latest,
           src_file: a.exe,
-          file_name: a_windows.exe
+          file_name: a_windows.exe,
+          rename_command: ren
         }
         - {
           os: macos-latest,
           src_file: a.out,
-          file_name: a_macos.out
+          file_name: a_macos.out,
+          rename_command: mv
         }
         - {
           os: ubuntu-latest,
           src_file: a.out,
-          file_name: a_linux.out
+          file_name: a_linux.out,
+          rename_command: mv
         }
         
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
       - name: Build
         run: g++ main.cpp
 
-      - name: pull-request
+      - name: Rename outputs
+        run: ${{ matrix.config.rename_command }} ${{ matrix.config.src_file }} ${{ matrix.config.file_name }}
+
+      - name: Commit
+        run: |
+          git config user.name "Actions release workflow"
+          git config user.email "kondo.eque@gmail.com"
+          git add ${{ matrix.config.file_name }}
+          git commit -m "Updated binary on ${{ matrix.config.os }}"
+          git pull
+          git push origin release
+
+  create_pr:
+    name: Create PR
+    needs: build
+    runs-on: ubuntu_latest
+    
+    steps:
+      - name: Create PR
         uses: repo-sync/pull-request@v2
         with:
           destination_branch: "main"
-          pr_title: "Release ${{ github.ref }} (${{ matrix.config.os }})"
-          pr_body: "Updated ${{ github.ref }} binary files on ${{ matrix.config.os }}."
+          pr_title: "Release ${{ github.ref }}"
+          pr_body: "Updated binary files to ${{ github.ref }}"
           pr_draft: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
