@@ -35,19 +35,19 @@ jobs:
           os: windows-latest,
           src_file: a.exe,
           output_path: .\bin\a_windows.exe,
-          rename_command: move
+          rename_command: move /Y
         }
         - {
           os: macos-latest,
           src_file: a.out,
           output_path: ./bin/a_macos.out,
-          rename_command: mv
+          rename_command: mv --force
         }
         - {
           os: ubuntu-latest,
           src_file: a.out,
           output_path: ./bin/a_linux.out,
-          rename_command: mv
+          rename_command: mv --force
         }
         
     steps:
@@ -93,7 +93,7 @@ jobs:
         with:
           source_branch: "release_${{ matrix.os }}"
           destination_branch: "release"
-          pr_title: "${{ github.ref }}: Updated the binary on ${{ matrix.os }}"
+          pr_title: "${{ matrix.os }}: Release ${{ github.ref }}"
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
      # - name: Upload Release Asset
