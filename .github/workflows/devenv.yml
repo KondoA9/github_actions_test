@@ -16,4 +16,4 @@ jobs:
 
       - name: run devenv
         run: |
-          Start-Process -FilePath "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\devenv.exe" -ArgumentList ""Windows\DermAnnotation.sln" /project "Windows\DermAnnotationSetup\DermAnnotationSetup.vdproj" /build Release"
+          Start-Process -FilePath "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\devenv.exe" -ArgumentList "Windows\DermAnnotation.sln /project Windows\DermAnnotationSetup\DermAnnotationSetup.vdproj /build Release"
