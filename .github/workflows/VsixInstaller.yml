@@ -1,0 +1,20 @@
+name: VsixInstaller
+
+on:
+  push:
+    branches:
+    - release
+  pull_request:
+    branches:
+    - release
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Visual Studio Installer Project
+        run: |
+          curl https://marketplace.visualstudio.com/_apis/public/gallery/publishers/VisualStudioClient/vsextensions/MicrosoftVisualStudio2017InstallerProjects/1.0.0/vspackage -o VSInstallerProjSetup.vsix
+          VsixInstaller.exe /quiet VSInstallerProjSetup.vsix
