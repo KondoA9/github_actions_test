@@ -36,15 +36,15 @@ jobs:
         config: 
         - {
           os: windows-latest,
-          file_name: a.exe
+          file_name: a_windows.exe
         }
         - {
           os: macos-latest,
-          file_name: a.out
+          file_name: a_macos.out
         }
         - {
           os: ubuntu-latest,
-          file_name: a.out
+          file_name: a_linux.out
         }
 
     steps:
