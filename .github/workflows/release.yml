@@ -41,7 +41,7 @@ jobs:
           os: macos-latest,
           src_file: a.out,
           output_path: ./bin/a_macos.out,
-          rename_command: mv --force
+          rename_command: mv -f
         }
         - {
           os: ubuntu-latest,
