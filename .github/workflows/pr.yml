@@ -1,3 +1,5 @@
+name: PR
+
 on:
   pull_request:
     branches:
@@ -8,4 +10,5 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: env | grep GITHUB_ | sort
+      - name: ls
+      - run: ls
