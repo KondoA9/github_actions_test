@@ -9,7 +9,7 @@ on:
     - opened
 
 jobs:
-  show_env:
+  comment-pr:
     runs-on: ubuntu-latest
 
     steps:
