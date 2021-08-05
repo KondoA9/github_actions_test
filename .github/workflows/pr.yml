@@ -5,10 +5,27 @@ on:
     branches:
     - release
 
+    types:
+    - opened
+
 jobs:
   show_env:
     runs-on: ubuntu-latest
 
     steps:
-      - name: ls
-      - run: ls
+    - name: Create comments
+      run: |
+        echo "[ ] Task1" >> comments
+        echo "[ ] Task2" >> comments
+        echo "[ ] Task3" >> comments
+        sed -i -z 's/\n/\\n/g' comments
+
+    - name: Post comments
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        URL: ${{ github.event.pull_request.comments_url }}
+      run: |
+        curl -X POST \
+             -H "Authorization: token ${GITHUB_TOKEN}" \
+             -d "{\"body\": \"$(cat comments)\"}" \
+             ${URL}
