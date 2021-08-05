@@ -1,0 +1,9 @@
+on:
+  - pull_request
+
+jobs:
+  show_env:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: env | grep GITHUB_ | sort
