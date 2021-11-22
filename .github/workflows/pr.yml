@@ -13,4 +13,4 @@ jobs:
       - uses: actions/checkout@v2
         
       - name: Echo
-        run: ${{ github.head_ref }}
+        run: echo Completed
