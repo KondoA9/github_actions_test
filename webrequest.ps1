@@ -1,0 +1,2 @@
+Start-Sleep 1
+Invoke-WebRequest "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/VisualStudioClient/vsextensions/MicrosoftVisualStudio2022InstallerProjects/0.1.0/vspackage" -OutFile "VSInstallerProjSetup.vsix"
