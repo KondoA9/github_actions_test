@@ -13,4 +13,4 @@ jobs:
       - uses: actions/checkout@v2
         
       - name: Echo
-        run: echo Completed
+        run: echo Completed branch name is ${{ github.head_ref }}
