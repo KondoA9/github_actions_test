@@ -30,5 +30,4 @@ jobs:
           rm .\VSInstallerProjSetup.vsix
           
       - name: End
-        if: failure()
         run: echo "End workflow"
