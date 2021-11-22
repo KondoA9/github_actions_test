@@ -1,4 +1,4 @@
-name: CI
+name: test
 
 on:
   push:
@@ -10,34 +10,25 @@ on:
 
 jobs:
   windows:
-    runs-on: windows-latest
+    runs-on: windows-2022
     steps:
       - uses: actions/checkout@v2
-
-      - name: Build
-        run: g++ main.cpp
-
-      - name: Run
-        run: .\a.exe
-
-  macOS:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Build
-        run: g++ main.cpp
-
-      - name: Run
-        run: ./a.out
-
-  linux:
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Build
-        run: g++ main.cpp
-
-      - name: Run
-        run: ./a.out
+        
+      - name: Install Visual Studio Installer Project
+        run: |
+          Invoke-WebRequest "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/VisualStudioClient/vsextensions/MicrosoftVisualStudio2022InstallerProjects/0.1.0/vspackage" -OutFile "VSInstallerProjSetup.vsix"
+          $ENV:Path="C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE;"+$ENV:Path
+          VSIXInstaller VSInstallerProjSetup.vsix /quiet
+          rm .\VSInstallerProjSetup.vsix
+          
+      - name: Retry to install Visual Studio Installer Project
+        if: failure()
+        run: |
+          Invoke-WebRequest "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/VisualStudioClient/vsextensions/MicrosoftVisualStudio2022InstallerProjects/0.1.0/vspackage" -OutFile "VSInstallerProjSetup.vsix"
+          $ENV:Path="C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE;"+$ENV:Path
+          VSIXInstaller VSInstallerProjSetup.vsix /quiet
+          rm .\VSInstallerProjSetup.vsix
+          
+      - name: End
+        if: failure()
+        run: echo "End workflow"
