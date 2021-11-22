@@ -21,6 +21,7 @@ jobs:
           $result = Start-Process "VSIXInstaller" -ArgumentList "VSInstallerProjSetup.vsix /quiet" -PassThru -Wait
           Write-Host "VSIXInstaller ExitCode:"$result.ExitCode
           rm .\VSInstallerProjSetup.vsix
+          if($result.ExitCode -eq 0) { throw "VSIX installed." }
           
       - name: End
         run: echo "End workflow"
