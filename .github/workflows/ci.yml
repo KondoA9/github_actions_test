@@ -24,6 +24,7 @@ jobs:
       - name: Retry to install Visual Studio Installer Project
         if: failure()
         run: |
+          Start-Sleep 3
           Invoke-WebRequest "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/VisualStudioClient/vsextensions/MicrosoftVisualStudio2022InstallerProjects/0.1.0/vspackage" -OutFile "VSInstallerProjSetup.vsix"
           $ENV:Path="C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE;"+$ENV:Path
           VSIXInstaller VSInstallerProjSetup.vsix /quiet
