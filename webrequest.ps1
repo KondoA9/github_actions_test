@@ -12,5 +12,7 @@ for ($i=0; $i -lt 10; $i++){
         exit 1
     }
 
+    Write-Output "Continue to get installer"
+
     Start-Sleep 3
 }
