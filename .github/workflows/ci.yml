@@ -18,7 +18,8 @@ jobs:
         run: |
           .\webrequest.ps1
           $ENV:Path="C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE;"+$ENV:Path
-          VSIXInstaller VSInstallerProjSetup.vsix /quiet
+          $result = Start-Process "VSIXInstaller" -ArgumentList "VSInstallerProjSetup.vsix /quiet" -PassThru -Wait
+          Write-Output $result.ExitCode
           rm .\VSInstallerProjSetup.vsix
           
       - name: End
