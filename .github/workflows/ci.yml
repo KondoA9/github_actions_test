@@ -21,13 +21,5 @@ jobs:
           VSIXInstaller VSInstallerProjSetup.vsix /quiet
           rm .\VSInstallerProjSetup.vsix
           
-      - name: Retry to install Visual Studio Installer Project
-        if: failure()
-        run: |
-          .\webrequest.ps1
-          $ENV:Path="C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE;"+$ENV:Path
-          VSIXInstaller VSInstallerProjSetup.vsix /quiet
-          rm .\VSInstallerProjSetup.vsix
-          
       - name: End
         run: echo "End workflow"
