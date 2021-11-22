@@ -17,9 +17,9 @@ jobs:
       - name: Install Visual Studio Installer Project
         run: |
           .\webrequest.ps1
-          $ENV:Path="C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE;"+$ENV:Path
+          $ENV:Path="C:\Program Files (x86)\Microsoft Visual Studio\Installer\resources\app\ServiceHub\Services\Microsoft.VisualStudio.Setup.Service;"+$ENV:Path
           $result = Start-Process "VSIXInstaller" -ArgumentList "VSInstallerProjSetup.vsix /quiet" -PassThru -Wait
-          Write-Output $result.ExitCode
+          Write-Host "VSIXInstaller ExitCode:"$result.ExitCode
           rm .\VSInstallerProjSetup.vsix
           
       - name: End
