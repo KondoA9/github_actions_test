@@ -19,4 +19,6 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: echo
-        run: echo ${{ matrix.config.echos }}
+        run: echo "$ECHO_STR"
+        env:
+          ECHO_STR: ${{ matrix.config.echos }}
