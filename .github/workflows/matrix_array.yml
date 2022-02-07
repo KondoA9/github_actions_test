@@ -7,7 +7,7 @@ on:
 
 jobs:
   github_actions_test:
-    name: ${{ matrix.config.target }}
+    name: Test ${{ matrix.config.target }}
     runs-on: ${{ matrix.config.os }}
     strategy:
       matrix:
