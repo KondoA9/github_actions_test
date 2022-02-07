@@ -11,9 +11,9 @@ jobs:
     strategy:
       matrix:
         config:
-          - { target: Windows, os: windows-2022, echos: ["Hello1", "Hello2"] }
-          - { target: macOS, os: macos-latest, echos: ["Hello1", "Hello2"] }
-          - { target: Linux, os: ubuntu-20.04, echos: ["Hello1", "Hello2"] }
+          - { target: Windows, os: windows-2022, echos: [{str: "Hello1"}, {str: "Hello2"}] }
+          - { target: macOS, os: macos-latest, echos: [{str: "Hello1"}, {str: "Hello2"}] }
+          - { target: Linux, os: ubuntu-20.04, echos: [{str: "Hello1"}, {str: "Hello2"}] }
 
     steps:
       - uses: actions/checkout@v2
@@ -21,4 +21,4 @@ jobs:
       - name: echo
         run: echo "$ECHO_STR"
         env:
-          ECHO_STR: ${{ matrix.config.echos }}
+          ECHO_STR: ${{ matrix.config.echos.str }}
