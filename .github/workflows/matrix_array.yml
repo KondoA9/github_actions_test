@@ -1,0 +1,21 @@
+name: matrix_array
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  github_actions_test:
+    strategy:
+      matrix:
+        config:
+          - { target: Windows, os: windows-2022, echos: ["Hello1", "Hello2"] }
+          - { target: macOS, os: macos-latest, echos: ["Hello1", "Hello2"] }
+          - { target: Linux, os: ubuntu-20.04, echos: ["Hello1", "Hello2"] }
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: echo
+        run: echo ${{ matrix.config.echos }}
