@@ -7,6 +7,7 @@ on:
 
 jobs:
   github_actions_test:
+    runs-on: ${{ matrix.config.os }}
     strategy:
       matrix:
         config:
