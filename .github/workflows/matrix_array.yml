@@ -12,16 +12,24 @@ jobs:
     strategy:
       matrix:
         config:
-          - { target: Windows, os: windows-2022, echos: 'HELLO1 HELLO2' }
-          - { target: macOS, os: macos-latest, echos: 'HELLO1 HELLO2' }
-          - { target: Linux, os: ubuntu-20.04, echos: 'HELLO1 HELLO2' }
+          - { target: Windows, os: windows-2022 }
+          - { target: macOS, os: macos-latest }
+          - { target: Linux, os: ubuntu-20.04 }
+        echos: [
+          {os: "Windows", echo: "Hello1 Windows"},
+          {os: "Windows", echo: "Hello2 Windows"},
+          {os: "macOS", echo: "Hello1 macOS"},
+          {os: "macOS", echo: "Hello2 macOS"},
+          {os: "macOS", echo: "Hello3 macOS"},
+          {os: "Linux", echo: "Hello1 Linux"},
+          {os: "Linux", echo: "Hello2 Linux"},
+        ]
 
     steps:
       - uses: actions/checkout@v2
 
       - name: echo
+        if: runner.os == ${{ matrix.echos.os }}
         env:
-          ECHO_STRS: ${{ matrix.config.echos }}
-        run: |
-          array=($ECHO_STRS)
-          for item in "${array[@]}"; do echo "${item}"; done
+          ECHO_STRS: ${{ matrix.echos.echo }}
+        run: echo "$ECHO_STRS"
